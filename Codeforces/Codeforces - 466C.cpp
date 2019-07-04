@@ -2,94 +2,52 @@
 
 using namespace std;
 
-long long int bsearch(vector <int> d, long long int start, long long int end, long long int q) {
-	if (q < d[start])
-	return -1;
-	else if (q >= d[end])
-	return end;
-	else
-	{
-		long long int mid = (start + end) / 2;
-		
-		if (d[mid] == q)
-		{
-			return mid; 
-		}
-		else if (q < d[mid])
-		{
-			if (q > d[mid-1])
-			{
-				return mid-1;
-			}
-			else
-			return bsearch(d, start, mid, q);
-		}
-		else
-		{
-			if (q < d[mid+1])
-			{
-				return mid;
-			}
-			else
-			return bsearch(d, mid, end, q);
-		}
-	}
-}
-
-int main() {
-	long long int n,sum=0,z;
+int main () {
+	int n;
 	cin>>n;
-	long long int a[n],b[n];
 	
-	cin>>a[0];
-	b[0] = a[0];
-	sum+= a[0];
-	for (int i=1;i<n;i++)
-	{
+	long long int a[n];
+	long long int sum = 0;
+	long long int c = 0, d = 0;
+	for (int i = 0;i < n;i++) {
 		cin>>a[i];
-		b[i] = a[i] + b[i-1];
-		sum+=a[i];
+		sum += a[i];
 	}
 	
-	if (sum % 3 != 0)
-	cout<<0;
+	if (sum % 3 == 0) {
+		long long int ans = 0;
+	
+		long long int b[n] = {}, e[n] = {};
+		
+		b[0] = a[0];
+		
+		for (int i = 1;i<n;i++)
+		{
+			b[i] += b[i-1] + a[i];
+		}
+		
+		for (int i = n-2;i>=0;i--)
+		{
+			if (b[i] == 2*sum/3) {
+				d++;
+			}
+			e[i] = d;
+		}
+		
+		for (int i = 0;i<n-2;i++)
+		{
+			if (b[i] == sum/3)
+			{
+				ans += e[i+1];
+			}
+		}
+		
+		cout<<ans;
+	}
 	else
 	{
-	
-	long long int z = sum/3;
-	
-	long long int ans = 0;
-	
-	vector <int> c, d;
-	
-	for (int i = 0;i<n-1;i++)
-	{
-		if (b[i] == z)
-		c.push_back(i);
-		if(b[i] == 2*z)
-		d.push_back(i);
+		cout<<0;
 	}
-	
-	int size1 = c.size(), size2 = d.size();
-	
-
-	for (int i = 0;i < size1;i++)
-	{
-		
-		z = bsearch(d,0,size2-1,c[i]);
-		
-		if (d[z] >= c[i])
-		{
-			ans += size2 - (z+1);
-		}
-	}
-	
-	
-	cout<<ans;
-	
-	}	
-	
-	
 	
 	return 0;
 }
