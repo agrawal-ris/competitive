@@ -13,25 +13,21 @@ int main() {
 		cin>>p[i];
 	}
 	
-	int max = 0;
+	int mx = 0;
 	
 	for (int i = 0;i<n;i++)
 	{
-		if (p[i] == -1)
-		{
-			b[i] = 1;
-		}
-		else
-		{
-			b[i] += b[p[i]-1] + 1;
+		int k = i+1;
+		int count = 0;
+		while (k != -1) {
+			count++;
+			k = p[k-1];
 		}
 		
-		if (max < b[i]) {
-			max = b[i];
-		}
+		mx = max(count, mx);
 	}
 
-	cout<<max;
+	cout<<mx;
 	
 	
 	
